@@ -24,9 +24,13 @@ function Dashboard() {
 
     return (
         <>
-            <div className="dashboard">
-                <h2>Dashboard</h2>
-                <p>Total Clicks: {totalClicks}</p>
+            <div className="container">
+                <div className="row d-flex justify-content-center align-items-center">
+                    <div className="card dashboard p-5 text-center" style={{ width: '18rem' }}>
+                        <h5 className="card-title">Dashboard</h5>
+                        <p>Total Clicks: {totalClicks}</p>
+                    </div>
+                </div>
             </div>
         </>
     )

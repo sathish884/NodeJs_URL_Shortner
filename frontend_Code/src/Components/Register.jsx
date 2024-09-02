@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Layout } from 'antd';
+import { Link } from 'react-router-dom';
+
 
 function Register() {
 
@@ -20,39 +23,55 @@ function Register() {
 
     return (
         <>
-            <div className="register">
-                <h2>Register</h2>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="First Name"
-                        value={firstName}
-                        onChange={(e) => setFirstName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="text"
-                        placeholder="Last Name"
-                        value={lastName}
-                        onChange={(e) => setLastName(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="email"
-                        placeholder="Email"
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        required
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Register</button>
-                </form>
+             <div className="container d-flex justify-content-center align-items-center p-3">
+                <div className="row justify-content-center w-100">
+                    <div className="card p-5 mx-auto" style={{ maxWidth: '35rem' }}>
+                        <h5 className='text-center'>Register</h5>
+                        <form onSubmit={handleSubmit}>
+
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <label className='form-label' htmlFor="firstName">First Name</label>
+                                    <input type="text" className="form-control" name='firstName' value={firstName} onChange={(e) => setFirstName(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <label className='form-label' htmlFor="lastName">Last Name</label>
+                                    <input type="text" className="form-control" name='lastName' value={lastName} onChange={(e) => setLastName(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <label className='form-label' htmlFor="email">Email</label>
+                                    <input type="email" className="form-control" name='email' value={email} onChange={(e) => setEmail(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <label className='form-label' htmlFor="password">Password</label>
+                                    <input type="password" className="form-control" name='password' value={password} onChange={(e) => setPassword(e.target.value)} />
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-12">
+                                    <button type='submit' className='btn btn-primary w-100' >Register</button>
+                                </div>
+                            </div>
+
+                            <div className="row mb-3">
+                                <div className="col-12 d-flex justify-content-between">
+                                    <Link to={'/'} style={{ fontSize: '16px' }}>Click here to login</Link>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
             </div>
         </>
     )

@@ -7,6 +7,7 @@ import URLShortner from './Components/URLShortner';
 import Dashboard from './Components/Dashboard';
 import URLTable from './Components/URLTable';
 import Navbar from './Components/Navbar';
+import ResetPassword from './Components/ResetPassword';
 
 
 function App() {
@@ -21,6 +22,7 @@ function App() {
             <Route path="/" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/forgot-password" element={<ForgetPassword />} />
+            <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/shorten" element={<URLShortner />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/urls" element={<URLTable />} />

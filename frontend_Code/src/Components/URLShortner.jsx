@@ -24,23 +24,29 @@ function URLShortner() {
     };
     return (
         <>
-            <div className="url-shortener">
-                <h2>Shorten URL</h2>
-                <form onSubmit={handleSubmit}>
-                    <input
-                        type="text"
-                        placeholder="Enter URL"
-                        value={originalURL}
-                        onChange={(e) => setOriginalURL(e.target.value)}
-                        required
-                    />
-                    <button type="submit">Shorten</button>
-                </form>
-                {shortURL && (
-                    <div>
-                        <p>Short URL: {shortURL}</p>
+            <div className="container">
+                <div className="row p-5 justify-content-center">
+                    <div className="card p-5">
+                        <div className="url-shortener d-flex justify-content-center align-items-center flex-md-column">
+                            <h2 className='text-center mb-3'>Shorten URL</h2>
+                            <form class="row g-3" onSubmit={handleSubmit}>
+
+                                <div class="col-auto">
+                                    <label for="inputPassword2" class="visually-hidden">Enter Url</label>
+                                    <input type="text" class="form-control" placeholder="Enter URL" value={originalURL} onChange={(e) => setOriginalURL(e.target.value)} required />
+                                </div>
+                                <div class="col-auto">
+                                    <button type="submit" class="btn btn-primary mb-3">Shorten</button>
+                                </div>
+                            </form>
+                            {shortURL && (
+                                <div>
+                                    <p>Short URL: {shortURL}</p>
+                                </div>
+                            )}
+                        </div>
                     </div>
-                )}
+                </div>
             </div>
         </>
     )
