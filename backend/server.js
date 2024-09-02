@@ -1,21 +1,29 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
-require("dotenv").config();
-const authRoutes = require("./routes/authRoute");
-const urlRoutes = require("./routes/urlRoute");
+const cors = require('cors');
+const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoute');
+const urlRoutes = require('./routes/urlRoute');
 
+dotenv.config();
 const app = express();
-app.use(bodyparser.json());
-app.use("/api", authRoutes);
-app.use("/api", urlRoutes);
 
-mongoose.connect(process.env.MONGODB_URI).then(() => {
+// Middleware
+app.use(cors());
+app.use(bodyparser.json());
+
+// Routes
+app.use('/api/auth', authRoutes);
+app.use('/api/urls', urlRoutes);
+
+const PORT = process.env.PORT;
+
+mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("MongoDB was connected");
-    app.listen(process.env.PORT, () => {
-        console.log(`Server is running on port ${process.env.PORT}`);
+    app.listen(PORT, () => {
+        console.log(`Server is running on port ${PORT}`);
     })
 }).catch(error => {
     console.log("Connection failed", error.message);
 });
-

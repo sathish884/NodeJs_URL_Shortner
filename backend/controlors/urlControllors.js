@@ -1,40 +1,71 @@
-const Url = require("../models/urlsort");
-const ShortId = require("shortid");
+const URL = require('../models/urlsort');
+const sortID = require('shortid');
 
-// shortner url generate
-exports.urlGenerate = async (req, res) => {
+exports.createShortURL = async (req, res) => {
+    const { originalURL } = req.body;
+
     try {
-        const { longUrls } = req.body;
-        const shortUrl = ShortId.generate();
-        const url = new Url({ longUrls, shortUrl });
-        await url.save();
-        res.status(200).json({ message: "Successfully created" })
-    } catch (error) {
-        res.status(500).json({ errMsg: error.message })
+        const shortURL = sortID.generate();
+        const newURL = new URL({
+            originalURL,
+            shortURL,
+            createdBy: req.user.id,
+        });
+
+        await newURL.save();
+        res.status(201).json(newURL);
+    } catch (err) {
+        res.status(400).json({ message: err.message });
     }
-}
+};
 
-// get url datas
-exports.getUrl = async (req, res) => {
-    try {
-        const urlData = await Url.find({});
-        res.status(200).json({ data: urlData });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-}
+exports.redirectToOriginalURL = async (req, res) => {
+    const { shortURL } = req.params;
 
-// redirec sorten url to long urls
-exports.redirectUrl = async (req, res) => {
     try {
-        const { shortUrl } = req.params;
-        const url = await Url.findOne({ shortUrl })
-        if (url) {
-            return res.redirect(url.longUrl);
-        } else {
-            return res.status(404).json({ message: "URL not found" });
+        const url = await URL.findOne({ shortURL });
+
+        if (!url) {
+            return res.status(404).json({ message: 'URL not found' });
         }
-    } catch (error) {
-        res.status(500).json({ message: error.message })
+
+        url.clickCount += 1;
+        await url.save();
+
+        res.redirect(url.originalURL);
+    } catch (err) {
+        res.status(400).json({ message: 'Failed to redirect' });
     }
-}
+};
+
+exports.getURLs = async (req, res) => {
+    try {
+        const urls = await URL.find({ createdBy: req.user.id });
+
+        res.status(200).json(urls);
+    } catch (error) {
+        res.status(500).json({ message: 'Server error' });
+    }
+};
+
+exports.getURLStats = async (req, res) => {
+
+    try {
+        console.log('User ID from request:', req.user._id); // Debug log
+
+        const urls = await URL.find({ createdBy: req.user._id });
+
+        if (urls.length === 0) {
+            return res.status(404).json({ message: 'No URLs found for this user' });
+        }
+
+        const totalClicks = urls.reduce((acc, url) => acc + url.clickCount, 0);
+        res.json({ totalClicks });
+    } catch (err) {
+        console.error('Error in getURLStats:', err); // Debug log
+        res.status(400).json({ message: 'Failed to fetch URL stats' });
+    }
+};
+
+
+

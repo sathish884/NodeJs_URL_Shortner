@@ -1,12 +1,16 @@
-const express = require("express");
-const UrlController = require("../controlors/urlControllors")
+const express = require('express');
+const urlController = require('../controlors/urlControllors');
+const authMiddleware = require('../middleware/authMiddlewars');
 
 const router = express.Router();
 
-router.route("/url/shortner").post(UrlController.urlGenerate);
+router.post('/shorten', authMiddleware.protect, urlController.createShortURL);
 
-router.route("/url/getUrl").get(UrlController.getUrl);
+router.get('/:shortURL', urlController.redirectToOriginalURL);
+router.get('/', authMiddleware.protect, urlController.getURLs);
 
-router.route("/url/redirectUrl").get(UrlController.redirectUrl);
+router.post('/getUrlStatus', authMiddleware.protect, urlController.getURLStats);
 
 module.exports = router;
+
+
