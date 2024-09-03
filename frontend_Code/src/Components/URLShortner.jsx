@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 
 function URLShortner() {
     const [originalURL, setOriginalURL] = useState('');
@@ -7,13 +8,15 @@ function URLShortner() {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        const token = JSON.parse(sessionStorage.getItem('token'));
+
         try {
             const response = await axios.post(
-                '/api/urls/shorten',
+                'http://localhost:3000/api/urls/shorten',
                 { originalURL },
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 }
             );
@@ -22,6 +25,11 @@ function URLShortner() {
             console.error('Shorten URL Error:', err.response.data.message);
         }
     };
+
+    const handleRedirect = () => {
+        window.open(`http://localhost:3000/api/urls/${shortURL}`, '_blank');
+    };
+
     return (
         <>
             <div className="container">
@@ -41,7 +49,7 @@ function URLShortner() {
                             </form>
                             {shortURL && (
                                 <div>
-                                    <p>Short URL: {shortURL}</p>
+                                    <p>Short URL: <a href='#' onClick={handleRedirect}>{shortURL}</a></p>
                                 </div>
                             )}
                         </div>

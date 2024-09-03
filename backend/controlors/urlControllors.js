@@ -24,15 +24,13 @@ exports.redirectToOriginalURL = async (req, res) => {
 
     try {
         const url = await URL.findOne({ shortURL });
-
-        if (!url) {
+        if (url) {
+            url.clickCount += 1;
+            await url.save();
+            return res.redirect(url.originalURL);
+        } else {
             return res.status(404).json({ message: 'URL not found' });
         }
-
-        url.clickCount += 1;
-        await url.save();
-
-        res.redirect(url.originalURL);
     } catch (err) {
         res.status(400).json({ message: 'Failed to redirect' });
     }

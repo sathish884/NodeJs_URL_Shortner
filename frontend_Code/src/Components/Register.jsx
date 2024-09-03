@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Layout } from 'antd';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { registerUser } from '../api'
 
 
 function Register() {
@@ -10,12 +11,16 @@ function Register() {
     const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/auth/register', { firstName, lastName, email, password });
+            await registerUser({ firstName, lastName, email, password })
+            // await axios.post('/api/auth/register', { firstName, lastName, email, password });
             alert('Registration successful. Please check your email to activate your account.');
+            navigate('/');
+
         } catch (err) {
             console.error('Registration Error:', err.response.data.message);
         }
@@ -23,7 +28,7 @@ function Register() {
 
     return (
         <>
-             <div className="container d-flex justify-content-center align-items-center p-3">
+            <div className="container d-flex justify-content-center align-items-center p-3">
                 <div className="row justify-content-center w-100">
                     <div className="card p-5 mx-auto" style={{ maxWidth: '35rem' }}>
                         <h5 className='text-center'>Register</h5>

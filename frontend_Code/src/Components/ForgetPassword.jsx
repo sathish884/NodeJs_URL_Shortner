@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { forgetPassword } from '../api'
 
 function ForgetPassword() {
     const [email, setEmail] = useState('');
@@ -9,7 +10,8 @@ function ForgetPassword() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('/api/auth/forgot-password', { email });
+            // await axios.post('/api/auth/forgot-password', );
+            await forgetPassword({ email })
             alert('Check your email for instructions to reset your password.');
             navigate('/reset-password');
         } catch (err) {

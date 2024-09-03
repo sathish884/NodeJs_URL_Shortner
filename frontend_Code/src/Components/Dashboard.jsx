@@ -6,13 +6,19 @@ function Dashboard() {
     const [totalClicks, setTotalClicks] = useState(0);
 
     useEffect(() => {
+        const token = JSON.parse(sessionStorage.getItem('token'));
+
         const fetchStats = async () => {
             try {
-                const response = await axios.get('/api/urls/stats', {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
-                    },
-                });
+                const response = await axios.post(
+                    'http://localhost:3000/api/urls/getUrlStatus',
+                    {}, // The request body can be empty or contain other data as needed
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
                 setTotalClicks(response.data.totalClicks);
             } catch (err) {
                 console.error('Fetch Stats Error:', err.response.data.message);

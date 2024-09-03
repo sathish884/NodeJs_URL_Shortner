@@ -6,11 +6,12 @@ function URLTable() {
     const [urls, setUrls] = useState([]);
 
     useEffect(() => {
+        const token = JSON.parse(sessionStorage.getItem('token'));
         const fetchURLs = async () => {
             try {
-                const response = await axios.get('/api/urls', {
+                const response = await axios.get('http://localhost:3000/api/urls', {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem('token')}`,
+                        Authorization: `Bearer ${token}`,
                     },
                 });
                 setUrls(response.data);
@@ -21,6 +22,7 @@ function URLTable() {
 
         fetchURLs();
     }, []);
+
 
     return (
         <>
@@ -38,13 +40,13 @@ function URLTable() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {/* {urls && urls.map((url) => (
+                                    {urls && urls.map((url) => (
                                         <tr key={url._id}>
                                             <td>{url.originalURL}</td>
                                             <td>{url.shortURL}</td>
                                             <td>{url.clickCount}</td>
                                         </tr>
-                                    ))} */}
+                                    ))}
                                 </tbody>
                             </table>
                         </div>

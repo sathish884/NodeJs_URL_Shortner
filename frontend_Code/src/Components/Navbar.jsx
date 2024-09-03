@@ -3,12 +3,12 @@ import { Link } from 'react-router-dom';
 
 function Navbar() {
 
-    const user = JSON.parse(localStorage.getItem('userObj'));
+    const user = JSON.parse(sessionStorage.getItem('userObj'));
 
     const logout = () => {
-        localStorage.removeItem('userObj');
-        localStorage.removeItem('token');
-        window.location.href = '/'
+        sessionStorage.removeItem('userObj');
+        sessionStorage.removeItem('token');
+        document.location.href = '/'
     }
 
     return (
@@ -23,20 +23,20 @@ function Navbar() {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             {user ? (
-                                <>
-                                    {/* <Link to="/das">Home</Link> */}
-                                    <Link to="/shorten">Shorten URL</Link>
-                                    <Link to="/dashboard">Dashboard</Link>
-                                    <Link to="/urls">My URLs</Link>
-                                    <div className="dropdown" style={{ position: 'relative' }}>
-                                        <button className="btn btn-secondary me-5" type="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                            {user.name}
-                                        </button>
-                                        <ul className="dropdown-menu" style={{ position: 'absolute', left: '-50px' }}>
-                                            <li><a className="dropdown-item" onClick={logout}>Logout</a></li>
-                                        </ul>
-                                    </div>
+                                <>  
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/shorten">Shorten URL</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/dashboard">Dashboard</Link>
+                                    </li>
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/urls">My URLs</Link>
+                                    </li>
 
+                                    <li className="nav-item">
+                                        <Link className="nav-link" to="/urls" onClick={logout}>Logout</Link>
+                                    </li>
                                 </>
                             ) : (
                                 <>

@@ -8,10 +8,10 @@ import Dashboard from './Components/Dashboard';
 import URLTable from './Components/URLTable';
 import Navbar from './Components/Navbar';
 import ResetPassword from './Components/ResetPassword';
+import Activated from './Utilities/Activated';
 
 
 function App() {
-
 
   return (
     <>
@@ -26,6 +26,7 @@ function App() {
             <Route path="/shorten" element={<URLShortner />} />
             <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/urls" element={<URLTable />} />
+            <Route path="/activate/:token" element={<Activated />} />
           </Routes>
         </div>
       </Router>

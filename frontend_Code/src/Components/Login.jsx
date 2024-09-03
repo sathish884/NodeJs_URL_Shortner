@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { loginUser } from '../api';
 
-function Login({ onLogin }) {
+function Login() {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -12,11 +13,17 @@ function Login({ onLogin }) {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('/api/auth/login', { email, password });
-            localStorage.setItem('userObj', response.data);
-            localStorage.setItem('token', response.data.token);
-            onLogin();
-            navigate('/dasboard')
+            // const response = await axios.post('/api/auth/login', { email, password });
+            const response = await loginUser({ email, password })
+            sessionStorage.setItem(
+                'userObj',
+                JSON.stringify(response.data.user)
+            );
+            sessionStorage.setItem(
+                'token',
+                JSON.stringify(response.data.token)
+            );
+            document.location.href = '/dashboard';
         } catch (err) {
             console.error('Login Error:', err.response.data.message);
         }

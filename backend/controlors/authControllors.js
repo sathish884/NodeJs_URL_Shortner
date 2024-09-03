@@ -39,7 +39,7 @@ exports.registerUser = async (req, res) => {
             text: `Please activate your account by clicking the following link: ${activationURL}`,
         });
 
-        res.status(201).json({ message: 'User registered. Check your email to activate your account.' });
+        res.status(201).json({ message: 'User registered. Check your email to activate your account.', token: activationToken });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
@@ -90,7 +90,7 @@ exports.loginUser = async (req, res) => {
             expiresIn: '1h',
         });
 
-        res.status(200).json({ token });
+        res.status(200).json({ token, user });
     } catch (error) {
         res.status(500).json({ message: 'Server error' });
     }
@@ -110,14 +110,13 @@ exports.forgotPassword = async (req, res) => {
             expiresIn: '1h',
         });
 
-        const resetURL = `${process.env.CLIENT_URL}/reset-password/${resetToken}`;
         await sendemail({
             to: user.email,
             subject: 'Password Reset',
-            text: `Please reset your password by clicking the following link: ${resetURL}`,
+            text: `You are receiving this email because you has requested a password reset for your account. \n\ Please use the following token to reset your password:\n${resetToken}`
         });
 
-        res.json({ message: 'Password reset email sent', token: resetToken});
+        res.json({ message: 'Password reset email sent', token: resetToken });
     } catch (err) {
         res.status(400).json({ message: err.message });
     }
