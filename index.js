@@ -19,6 +19,10 @@ app.use('/api/urls', urlRoutes);
 
 const PORT = process.env.PORT;
 
+app.get("/", (req, res) => {
+    res.json({ message: "Password Reset flow Deployed Successfully" });
+});
+
 mongoose.connect(process.env.MONGO_URI).then(() => {
     console.log("MongoDB was connected");
     app.listen(PORT, () => {
